@@ -10,41 +10,51 @@
 #include <thread>
 #include <string>
 #include <cstdlib>
-#include <AccederACola>
-#include <EsperarRespuesta>
-#include <GestionarFinalizacion>
+
+#include "AccederACola.hpp"
+#include "EsperarRespuesta.hpp"
+#include "GestionarFinalizacion.hpp"
+#include "ImageWindow.hpp"
 
 using namespace std;
 
-//definicion del tipo de dato Peticion
-enum tpPeticion {
-    Publicar,
-    Finalizar
-};
-
-struct Peticion{
-    int idC;
-    tpPeticion tpPet;
-    string imagen;
-    int tServ;
-};
-
-//definicion del tipo de dato respuesta
-struct Respuesta{
-    bool estado;
-    double precio;
-};
-
-
 //----------------------------------------------------
-const int 
-    NUM_Cl = 10,       // Número de clientes
-    NUM_Pub = 3,       // Número de publicadores   
-    MAX_IMG = 10,      // Número imágenes por cliente
-    MAX_INTENTOS = 2,  // Intentos por imagen
-    TAM_COLA_VG = 10,  // Tamaño de cola
-    TAM_COLA_VP = 15,  // Tamaño de cola
-    PRECIO_BASE = 100; // Precio base
+const int NUM_Cl = 10; 
+const int NUM_Pub = 3; 
+const int MAX_IMG = 10; 
+const int MAX_INTENTOS = 2; 
+const int TAM_COLA_VG = 10; 
+const int TAM_COLA_VP = 15; 
+const int PRECIO_BASE = 100;
+
+
+enum tpPeticion { 
+    Publicar, 
+    Finalizar 
+}; struct 
+
+Peticion { 
+    int idC; 
+    tpPeticion tpPet; 
+    string imagen; 
+    int tServ; 
+};
+
+string escogerImagen() { 
+    int nImagen = 1 + rand() % 20; 
+    string pref = "nature_"; 
+    if (nImagen &lt; 10) { 
+        return pref + "0" + to\_string(nImagen) + ".jpg"; 
+    } else { 
+        return pref + to\_string(nImagen) + ".jpg"; 
+    } 
+}
+
+void mostrarImagen(ImageWindow &win, const string &rutaImagen, int tServ) { 
+    win.show(rutaImagen); 
+    this_thread::sleep_for(chrono::milliseconds(tServ)); 
+}
+
 //----------------------------------------------------
 void Cliente(const int id, 
     AccederACola<Peticion>& mVG, AccederACola<Peticion>& mVP, 

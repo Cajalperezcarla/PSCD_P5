@@ -41,10 +41,10 @@ public:
     void esperarATodos();
     
 private:
-	mutex mtxMonitor;
-    condition_variable var_condition;
-    int numClientFin;
-    /*....*/
+	const int numClientes; 
+    int numClientFin; 
+    mutex mtxMonitor; 
+    condition_variable cvFin;
 };
 
 #endif

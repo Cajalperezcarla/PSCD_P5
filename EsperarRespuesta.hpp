@@ -9,7 +9,15 @@
 
 #include <mutex>
 #include <condition_variable>
-/*....*/
+
+// Estructura de Respuesta (si no está definida en un header común) 
+#ifndef STRUCT_RESPUESTA 
+#define STRUCT_RESPUESTA 
+struct Respuesta { 
+    bool estado; 
+    double precio; 
+}; 
+#endif
 
 using namespace std;
 //-----------------------------------------------------
@@ -20,7 +28,7 @@ public:
     //Pre:  
     //Post: 
     //Com:  constructor
-    EsperarRespuesta();
+    EsperarRespuesta(const int numClientes);
     
     //-----------------------------------------------------
     //Pre:
@@ -38,12 +46,14 @@ public:
     //Pre: ? 
     //Post: ? 
     //Coms: escribe una respuesta dirigida a un cliente
-    void escribirRespuesta(const int idCliente, Respuesta resp);
+    void escribirRespuesta(const int idCliente, Respuesta &resp);
     
 private:
-	mutex mtxMonitor;
-    condition_variable var_condition;
-    /*....*/
+	const int numClientes; 
+    mutex mtxMonitor; 
+    bool* hayRespuesta; 
+    Respuesta* tipoRespuesta; 
+    condition_variable* cvRespuesta; // Una variable de condición por cliente
 };
 
 #endif

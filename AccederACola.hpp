@@ -41,9 +41,12 @@ public:
     //      y desencola el primer elemento
     void desencolar(T &d);
 
+
 private:
 	mutex mtxMonitor;
-    condition_variable var_condition;
+    condition_variable hay_elemento;
+    condition_variable hay_hueco;
+    BoundedQueue<T> bq;
     /*....*/
 };
 // Al trabajar con tipos genéricos, especificación e implementación
